@@ -101,10 +101,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # Update the list of packages
   config.vm.provision :shell, :inline => "sudo apt-get update -y"
-  gem install berkshelf
+  #gem install berkshelf
   
-  cookbook "git"
-  cookbook "nodejs"
+  #cookbook "git"
+  #cookbook "nodejs"
 
   # Use [berkshelf](http://berkshelf.com/)
   config.berkshelf.enabled = true
