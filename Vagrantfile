@@ -117,17 +117,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.json = {
       "nodejs" => {
         "version" => "0.10.22"
+      },
+      "golang" => {
+        "version" => "1.2.0"
       }
     }
 
     chef.add_recipe "apt"
     chef.add_recipe "git"
+    chef.add_recipe "golang"
     chef.add_recipe "nodejs"
     chef.add_recipe "nodejs::npm"
-    chef.add_recipe "npm"
-    chef.add_recipe "npm_package 'yo'"
-    
-
   end
 
   # Enable provisioning with chef server, specifying the chef server URL,
