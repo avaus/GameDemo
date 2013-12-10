@@ -58,7 +58,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
@@ -101,10 +101,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   # Update the list of packages
   config.vm.provision :shell, :inline => "sudo apt-get update -y"
-  #gem install berkshelf
-  
-  #cookbook "git"
-  #cookbook "nodejs"
+
+  # Installing Yeoman and generators
+  #config.vm.provision :shell, :inline => "npm install -g yo"
+  #config.vm.provision :shell, :inline => "npm install -g generator-webapp"
+
+  # Install Chef using vagrant-omnibus
+  # vagrant plugin install vagrant-omnibus
+  config.omnibus.chef_version = "11.6.0"
 
   # Use [berkshelf](http://berkshelf.com/)
   config.berkshelf.enabled = true
@@ -112,12 +116,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :chef_solo do |chef|
     chef.json = {
       "nodejs" => {
-        "version" => "0.10.7"
+        "version" => "0.10.22"
       }
     }
 
+    chef.add_recipe "apt"
     chef.add_recipe "git"
     chef.add_recipe "nodejs"
+    chef.add_recipe "nodejs::npm"
+    chef.add_recipe "npm"
+    chef.add_recipe "npm_package 'yo'"
+    
 
   end
 
