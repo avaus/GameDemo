@@ -114,6 +114,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.berkshelf.enabled = true
 
   config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = "cookbooks"
     chef.json = {
       "nodejs" => {
         "version" => "0.10.22"
@@ -128,6 +129,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "golang"
     chef.add_recipe "nodejs"
     chef.add_recipe "nodejs::npm"
+    chef.add_recipe "game"
   end
 
   # Enable provisioning with chef server, specifying the chef server URL,
