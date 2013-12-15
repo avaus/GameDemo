@@ -22,7 +22,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network :forwarded_port, guest: 80, host: 8080
-  config.vm.network :forwarded_port, guest: 8000, host: 8000
+
+    # Grunt server
+  config.vm.network :forwarded_port, guest: 9000, host: 9000
+  
+  # Livereload
+  config.vm.network :forwarded_port, guest: 9002, host: 9002
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -61,29 +66,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
-  # Enable provisioning with Puppet stand alone.  Puppet manifests
-  # are contained in a directory path relative to this Vagrantfile.
-  # You will need to create the manifests directory and a manifest in
-  # the file base.pp in the manifests_path directory.
-  #
-  # An example Puppet manifest to provision the message of the day:
-  #
-  # # group { "puppet":
-  # #   ensure => "present",
-  # # }
-  # #
-  # # File { owner => 0, group => 0, mode => 0644 }
-  # #
-  # # file { '/etc/motd':
-  # #   content => "Welcome to your Vagrant-built virtual machine!
-  # #               Managed by Puppet.\n"
-  # # }
-  #
-  # config.vm.provision :puppet do |puppet|
-  #   puppet.manifests_path = "manifests"
-  #   puppet.manifest_file  = "site.pp"
-  # end
-
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
@@ -97,14 +79,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   # You may also specify custom JSON attributes:
   #   chef.json = { :mysql_password => "foo" }
-  # end
-  
-  # Update the list of packages
-  config.vm.provision :shell, :inline => "sudo apt-get update -y"
-
-  # Installing Yeoman and generators
-  #config.vm.provision :shell, :inline => "npm install -g yo"
-  #config.vm.provision :shell, :inline => "npm install -g generator-webapp"
+  # end  
 
   # Install Chef using vagrant-omnibus
   # vagrant plugin install vagrant-omnibus
@@ -115,20 +90,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "cookbooks"
+
     chef.json = {
       "nodejs" => {
         "version" => "0.10.22"
+      },
+      "npm" => {
+        "version" => '1.3.17'
       },
       "golang" => {
         "version" => "1.2.0"
       }
     }
 
-    chef.add_recipe "apt"
     chef.add_recipe "git"
     chef.add_recipe "golang"
-    chef.add_recipe "nodejs"
-    chef.add_recipe "nodejs::npm"
+    chef.add_recipe "npm"
     chef.add_recipe "game"
   end
 
