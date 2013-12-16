@@ -1,4 +1,4 @@
-game.Camera = (function() {
+game.camera = (function() {
 
 	// possibles axis to move the camera
 	var AXIS = {
@@ -29,10 +29,10 @@ game.Camera = (function() {
 		this.followed = null;
 
 		// rectangle that represents the viewport
-		this.viewportRect = new Game.Rectangle(this.xView, this.yView, this.wView, this.hView);
+		this.viewportRect = new game.rectangle.Rectangle(this.xView, this.yView, this.wView, this.hView);
 
 		// rectangle that represents the world's boundary (room's boundary)
-		this.worldRect = new Game.Rectangle(0, 0, worldWidth, worldHeight);
+		this.worldRect = new game.rectangle.Rectangle(0, 0, worldWidth, worldHeight);
 
 	}
 

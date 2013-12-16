@@ -1,4 +1,4 @@
-game.Map = (function() {
+game.map = (function() {
 	
 	function Map(width, height) {
 		// map dimensions
@@ -18,16 +18,13 @@ game.Map = (function() {
 		var rows = ~~ (this.width / 44) + 1;
 		var columns = ~~ (this.height / 44) + 1;
 
-		var color = "red";
 		ctx.save();
-		ctx.fillStyle = "red";
+		ctx.fillStyle = "#31731F";
 		for (var x = 0, i = 0; i < rows; x += 44, i++) {
 			ctx.beginPath();
 			for (var y = 0, j = 0; j < columns; y += 44, j++) {
-				ctx.rect(x, y, 40, 40);
+				ctx.rect(x, y, 43, 43);
 			}
-			color = (color == "red" ? "blue" : "red");
-			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.closePath();
 		}
@@ -79,7 +76,7 @@ game.Map = (function() {
 	}
 
 	return {
-		Map = Map;
+		Map: Map
 	}
 
 })();
