@@ -26,8 +26,9 @@ game.game = (function() {
 	var camera = new game.camera.Camera(0, 0, canvas.width, canvas.height, room.width, room.height);
 	camera.follow(player, canvas.width / 2, canvas.height / 2);
 
-	window.addEventListener("click", function(e) {
-		player.setDestination(STEP, event.clientX - camera.xView, event.clientY - camera.yView);		
+	canvas.addEventListener("click", function(e) {
+		var rect = canvas.getBoundingClientRect();
+		player.setDestination(STEP, event.clientX - rect.left + camera.xView, event.clientY - rect.top + camera.yView);		
 	}, false);
 
 	// Game update function
