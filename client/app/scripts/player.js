@@ -8,28 +8,44 @@ game.player = (function() {
 		this.destX = x;
 		this.destY = y;
 
+		this.xMove = 0;
+		this.yMove = 0;
+
 		this.speed = 200;
 
 		this.width = 50;
 		this.height = 50;
 	}
 
-	var calculateWayLength = function(destX, destY) {
-		return Math.sqrt(Math.pow((this.x - destX),2) + Math.pow((this.y - destY),2));
+	Player.prototype.calculateWayLength = function() {
+		return Math.sqrt(Math.pow((this.x - this.destX), 2) + Math.pow((this.y - this.destY), 2));
 	}
 
-	Player.prototype.move = function(step, worldWidth, worldHeight) {
-		// parameter step is the time between frames ( in seconds )
+	Player.prototype.setDestination = function(step, destX, destY) {
+		this.destX = parseInt(destX);
+		this.destY = parseInt(destY);
 
-		// check controls and move the player accordingly
-		if (game.controls.left)
-			this.x -= this.speed * step;
-		if (game.controls.up)
-			this.y -= this.speed * step;
-		if (game.controls.right)
-			this.x += this.speed * step;
-		if (game.controls.down)
-			this.y += this.speed * step;
+		var wayLength = this.calculateWayLength();
+		var moveSpeed = this.speed * step;
+		var turns = wayLength / moveSpeed;
+
+		this.xMove = (destX - this.x) / turns;
+		this.yMove = (destY - this.y) / turns;
+	}
+
+	Player.prototype.move = function(worldWidth, worldHeight) {
+
+		if (this.x < this.destX + 2 && this.x > this.destX - 2) {
+
+			this.xMove = 0;
+		} else {
+			this.x += this.xMove;
+		}
+		if (this.y < this.destY + 2 && this.y > this.destY - 2) {
+			this.yMove = 0;
+		} else {
+			this.y += this.yMove;
+		}
 
 		// don't let player leaves the world's boundary
 		if (this.x - this.width / 2 < 0) {

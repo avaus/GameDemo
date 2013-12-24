@@ -26,40 +26,13 @@ game.game = (function() {
 	var camera = new game.camera.Camera(0, 0, canvas.width, canvas.height, room.width, room.height);
 	camera.follow(player, canvas.width / 2, canvas.height / 2);
 
-	var x, y = 50;
-
-	window.addEventListener("mousemove", function(e) {
-		x = event.clientX;
-		y = event.clientY;
-	}, false);
-
-	window.addEventListener("mousedown", function(e) {
-		if (x > player.x) {
-			game.controls.right = true;
-		}
-		if (x < player.x) {
-			game.controls.left = true;
-		}
-		if (y > player.y) {
-			game.controls.down = true;
-		}
-		if (y < player.y) {
-			game.controls.up = true;
-		}
-
-	}, false);
-
-
-	window.addEventListener("mouseup", function(e) {
-		game.controls.left = false;
-		game.controls.up = false;
-		game.controls.right = false;
-		game.controls.down = false;
+	window.addEventListener("click", function(e) {
+		player.setDestination(STEP, event.clientX - camera.xView, event.clientY - camera.yView);		
 	}, false);
 
 	// Game update function
 	var update = function() {
-		player.move(STEP, room.width, room.height);
+		player.move(room.width, room.height);
 		camera.update();
 	}
 
@@ -111,47 +84,3 @@ game.game = (function() {
 		togglePause: togglePause
 	};
 })();
-
-game.controls = {
-	left: false,
-	up: false,
-	right: false,
-	down: false,
-};
-
-window.addEventListener("keydown", function(e) {
-	switch (e.keyCode) {
-		case 37: // left arrow
-			game.controls.left = true;
-			break;
-		case 38: // up arrow
-			game.controls.up = true;
-			break;
-		case 39: // right arrow
-			game.controls.right = true;
-			break;
-		case 40: // down arrow
-			game.controls.down = true;
-			break;
-	}
-}, false);
-
-window.addEventListener("keyup", function(e) {
-	switch (e.keyCode) {
-		case 37: // left arrow
-			game.controls.left = false;
-			break;
-		case 38: // up arrow
-			game.controls.up = false;
-			break;
-		case 39: // right arrow
-			game.controls.right = false;
-			break;
-		case 40: // down arrow
-			game.controls.down = false;
-			break;
-		case 80: // key P pauses the game
-			game.game.togglePause();
-			break;
-	}
-}, false);
