@@ -34,8 +34,14 @@ execute "bower_install" do
   action :run
 end
 
+# Install Go deps
+execute "go_deps" do
+  command 'go get github.com/gorilla/websocket && go get github.com/golang/glog'
+  action :run
+end
+
 # Build WS Go server
 execute "go_server" do
-  command 'mkdir -p /opt/go/src/github.com/avaus && ln -s /vagrant /opt/go/src/github.com/avaus/GameDemo && go get github.com/gorilla/websocket && go install github.com/avaus/GameDemo'
+  command 'mkdir -p /opt/go/src/github.com/avaus && ln -s /vagrant /opt/go/src/github.com/avaus/GameDemo && go install github.com/avaus/GameDemo'
   action :run
 end
