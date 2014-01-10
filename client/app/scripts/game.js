@@ -26,7 +26,7 @@ game.game = (function() {
 	var camera = new game.camera.Camera(0, 0, canvas.width, canvas.height, room.width, room.height);
 	camera.follow(player, canvas.width / 2, canvas.height / 2);
 
-	canvas.addEventListener("click", function(e) {
+	canvas.addEventListener("click", function(event) {
 		var rect = canvas.getBoundingClientRect();
 		player.setDestination(STEP, event.clientX - rect.left + camera.xView, event.clientY - rect.top + camera.yView);		
 	}, false);
