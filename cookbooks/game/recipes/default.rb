@@ -33,3 +33,9 @@ execute "bower_install" do
   command 'sudo su - vagrant -c "cd /vagrant/client && bower install"'
   action :run
 end
+
+# Build WS Go server
+execute "go_server" do
+  command 'mkdir -p /opt/go/src/github.com/avaus && ln -s /vagrant /opt/go/src/github.com/avaus/GameDemo && go get github.com/gorilla/websocket && go install github.com/avaus/GameDemo'
+  action :run
+end
