@@ -4,7 +4,7 @@ game.game = (function() {
 	var canvas = document.getElementById("canvas");
 	var context = canvas.getContext("2d");
 
-	// game settings:	
+	// game settings:
 	var FPS = 60;
 	var INTERVAL = 1000 / FPS; // milliseconds
 	var STEP = INTERVAL / 1000 // seconds
@@ -28,7 +28,10 @@ game.game = (function() {
 
 	canvas.addEventListener("click", function(event) {
 		var rect = canvas.getBoundingClientRect();
-		player.setDestination(STEP, event.clientX - rect.left + camera.xView, event.clientY - rect.top + camera.yView);		
+		var x = event.clientX - rect.left + camera.xView;
+		var y = event.clientY - rect.top + camera.yView;
+		player.setDestination(STEP, x, y);
+		socket.send("goto;" + x + ";" + y);
 	}, false);
 
 	// Game update function

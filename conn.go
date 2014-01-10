@@ -28,9 +28,18 @@ func (c *connection) reader() {
 		}
 		msg := strings.Split(string(message), ";")
 		mtype := msg[0]
-		payload := msg[1]
-		glog.Info(mtype, " ", payload)
-		s.broadcast <- message
+		switch mtype {
+		case "register":
+			glog.Info("Received register with nick ", msg[1])
+			c.send <- []byte("ok;registered")
+		case "goto":
+			glog.Info("setting target position to ", msg[1], " ", msg[2])
+			c.send <- []byte("ok;set")
+		default:
+			glog.Info("unknown message")
+			c.send <- []byte("err;unknown message")
+		}
+		// s.broadcast <- message
 	}
 	c.ws.Close()
 }
