@@ -28,7 +28,12 @@ game.game = (function() {
 
 	canvas.addEventListener("click", function(event) {
 		var rect = canvas.getBoundingClientRect();
-		player.setDestination(STEP, event.clientX - rect.left + camera.xView, event.clientY - rect.top + camera.yView);		
+		var x = event.clientX - rect.left + camera.xView;
+		var y = event.clientY - rect.top + camera.yView;
+		if (typeof socket != 'undefined') {
+			socket.send("move;"+x+";"+y);
+		}
+		player.setDestination(STEP, x, y);
 	}, false);
 
 	// Game update function
