@@ -7,7 +7,9 @@ package main
 
 import (
 	"github.com/gorilla/websocket"
+	"github.com/golang/glog"
 	"net/http"
+	"strings"
 )
 
 type connection struct {
@@ -24,6 +26,10 @@ func (c *connection) reader() {
 		if err != nil {
 			break
 		}
+		msg := strings.Split(string(message), ";")
+		mtype := msg[0]
+		payload := msg[1]
+		glog.Info(mtype, " ", payload)
 		s.broadcast <- message
 	}
 	c.ws.Close()
