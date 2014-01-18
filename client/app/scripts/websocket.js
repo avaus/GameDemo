@@ -7,3 +7,13 @@ socket.onopen = function () {
 socket.onmessage = function(msg) {
 	console.log(msg);
 }
+
+socket.onclose = function(){
+	alert('Server connection failure. Only offline mode.');
+	socket = undefined;
+}
+
+socket.onerror = function(){
+	alert('Server connection failure. Only offline mode.');
+	socket = undefined;
+}

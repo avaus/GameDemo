@@ -30,8 +30,10 @@ game.game = (function() {
 		var rect = canvas.getBoundingClientRect();
 		var x = event.clientX - rect.left + camera.xView;
 		var y = event.clientY - rect.top + camera.yView;
+		if (typeof socket != 'undefined') {
+			socket.send("goto;" + x + ";" + y);
+		}
 		player.setDestination(STEP, x, y);
-		socket.send("goto;" + x + ";" + y);
 	}, false);
 
 	// Game update function
